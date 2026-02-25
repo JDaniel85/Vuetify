@@ -91,6 +91,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const userNameRules = [value => checkApi(value)]
 const passwordRules = [
@@ -138,9 +139,11 @@ async function submit(event) {
     if (data.acceso === "Ok") {
       successMessage.value = "¡Inicio de sesión exitoso!"
       localStorage.setItem("token", data.token)
-      console.log(data)
+      setTimeout(() => {
+        router.push('/Products')
+      }, 800)
     } else {
-      errorMessage.value = data.error
+      errorMessage.value = data.error || 'Credenciales incorrectas.'
     }
 
   } catch (error) {
@@ -157,12 +160,13 @@ async function checkApi(userName) {
   return new Promise(resolve => {
     clearTimeout(timeout)
     timeout = setTimeout(() => {
-      if (!userName) return resolve('Please enter a user name.')
-      if (userName === 'johnleider') return resolve('User name already taken. Please try another one.')
+      if (!userName) return resolve('Por favor ingresa tu correo.')
       return resolve(true)
-    }, 1000)
+    }, 500)
   })
 }
+
+const router = useRouter();
 </script>
 
 <style scoped>
