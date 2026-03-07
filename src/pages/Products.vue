@@ -39,8 +39,18 @@ import { ref, onMounted } from 'vue';
 import axios from '../config/axios';
 import { useRouter } from 'vue-router';
 
+interface Product {
+  id: number
+  codigo: string
+  nombre: string
+  precio: number
+  porcentaje_impuesto: number
+  precio_final: number
+  [key: string]: unknown
+}
+
 const router = useRouter();
-const products = ref([]);
+const products = ref<Product[]>([]);
 const headers = [
   { title: 'Código', key: 'codigo' },
   { title: 'Nombre', key: 'nombre' },
@@ -72,7 +82,7 @@ const deleteProduct = async () => {
   deleting.value = true;
   try {
     await axios.delete(`/products/${productToDelete.value.id}`);
-    products.value = (products.value as any[]).filter((p: any) => p.id !== productToDelete.value.id);
+    products.value = products.value.filter((p) => p.id !== productToDelete.value.id);
     deleteDialog.value = false;
   } catch (e) {
     // Manejo de error

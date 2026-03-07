@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fondo circular con gradiente azul de Vuetify -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1867C0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5CBBF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="256" fill="url(#bg)" />
+  <!-- Logo Vuetify simplificado: chevron/V doble -->
+  <polygon points="128,140 256,372 384,140 336,140 256,292 176,140" fill="white" opacity="0.95"/>
+  <polygon points="176,140 256,292 336,140 300,140 256,236 212,140" fill="white" opacity="0.5"/>
+</svg>
