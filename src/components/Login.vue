@@ -16,6 +16,21 @@
 
       <!-- Formulario -->
       <div class="card-body">
+
+        <!-- Alerta de sin conexión -->
+        <v-alert
+          v-if="!isOnline"
+          type="warning"
+          variant="tonal"
+          prominent
+          class="mb-4"
+          icon="mdi-wifi-off"
+        >
+          <v-alert-title class="text-subtitle-2 font-weight-bold">Sin conexión a internet</v-alert-title>
+          No es posible conectarse al servidor. La vista de inicio de sesión está disponible,
+          pero no podrás autenticarte hasta que se restablezca la conexión.
+        </v-alert>
+
         <v-form validate-on="submit lazy" @submit.prevent="submit">
 
           <v-text-field
@@ -45,13 +60,15 @@
 
           <v-btn
             :loading="loading"
+            :disabled="!isOnline"
             type="submit"
             block
             size="large"
             variant="flat"
             class="submit-btn mt-5"
           >
-            Continuar
+            <v-icon v-if="!isOnline" start>mdi-wifi-off</v-icon>
+            {{ isOnline ? 'Continuar' : 'Sin conexión' }}
           </v-btn>
 
           <!-- Alertas de éxito / error (del código 2 original) -->
@@ -92,6 +109,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { usePWA } from '@/composables/usePWA'
+
+const { isOnline } = usePWA()
 
 const userNameRules = [value => checkApi(value)]
 const passwordRules = [
@@ -121,6 +141,13 @@ async function submit(event) {
     return
   }
 
+  // Verificar conexión antes de intentar el login
+  if (!isOnline.value) {
+    errorMessage.value = 'No hay conexión a internet. No es posible conectarse al servidor.'
+    loading.value = false
+    return
+  }
+
   try {
     const response = await fetch("http://127.0.0.1:8000/api/login", {
       method: "POST",
@@ -147,7 +174,11 @@ async function submit(event) {
     }
 
   } catch (error) {
-    errorMessage.value = "No se pudo conectar con el servidor"
+    if (!navigator.onLine) {
+      errorMessage.value = 'No hay conexión a internet. No es posible conectarse al servidor.'
+    } else {
+      errorMessage.value = 'No se pudo conectar con el servidor. Intente de nuevo más tarde.'
+    }
     console.error(error)
   }
 

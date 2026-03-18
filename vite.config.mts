@@ -99,7 +99,7 @@ export default defineConfig({
       },
       workbox: {
         // Cachear todos los assets estáticos generados en el build
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,ttf,eot}'],
         // Estrategia Network First para las rutas de navegación (HTML)
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api/],
