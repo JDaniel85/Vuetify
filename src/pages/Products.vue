@@ -2,7 +2,10 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-btn color="primary" class="mb-4" @click="goToNewProduct" prepend-icon="mdi-plus">Nuevo registro</v-btn>
+        <div class="d-flex gap-2 mb-4">
+          <v-btn color="primary" @click="goToNewProduct" prepend-icon="mdi-plus">Nuevo registro</v-btn>
+          <v-btn color="success" @click="goToFCMDashboard" prepend-icon="mdi-bell-ring">Centro FCM</v-btn>
+        </div>
         <v-data-table :headers="headers" :items="products" :loading="loading" loading-text="Cargando registros..." no-data-text="No hay registros disponibles" item-key="codigo" class="elevation-1">
           <template v-slot:item.porcentaje_impuesto="{ item }">
             {{ item.porcentaje_impuesto }} %
@@ -67,6 +70,10 @@ const productToDelete = ref<any>(null);
 
 const goToNewProduct = () => {
   router.push('/ProductForm');
+};
+
+const goToFCMDashboard = () => {
+  router.push('/FCMDashboard');
 };
 
 const editProduct = (item: any) => {

@@ -163,9 +163,14 @@ async function submit(event) {
 
     const data = await response.json()
 
+    console.log('📡 Respuesta del servidor:', data)
+    console.log('Acceso check:', data.acceso === 'Ok')
+
     if (data.acceso === "Ok") {
       successMessage.value = "¡Inicio de sesión exitoso!"
+      console.log('✅ Guardando token:', data.token)
       localStorage.setItem("token", data.token)
+      console.log('✅ Token guardado en localStorage:', localStorage.getItem('token'))
       setTimeout(() => {
         router.push('/Products')
       }, 800)
